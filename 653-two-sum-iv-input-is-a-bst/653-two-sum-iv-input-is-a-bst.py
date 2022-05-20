@@ -5,28 +5,19 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def findTarget(self, root: Optional[TreeNode], k: int) -> bool:
-        nums = []
-        
-        def traverse(node):
-            if not node:
-                return None
-            
-            nums.append(node.val)
-            traverse(node.left)
-            traverse(node.right)
-            
-        traverse(root)
-        nums.sort()
-        left, right = 0, len(nums) - 1 
-        
-        while left < right:
-            if nums[left] + nums[right] == k:
-                return True
-            elif nums[left] + nums[right] < k:
-                left += 1
-            else:
-                right -= 1
-        
-        return False
-        
+    def findTarget(self, root, k):
+        if not root:
+            return False
+
+        return self._findTarget(root, set(), k)
+    
+    def _findTarget(self, node, nodes, k):
+        if not node:
+            return False
+
+        complement = k - node.val
+        if complement in nodes:
+            return True
+
+        nodes.add(node.val)
+        return self._findTarget(node.left, nodes, k) or self._findTarget(node.right, nodes, k)
