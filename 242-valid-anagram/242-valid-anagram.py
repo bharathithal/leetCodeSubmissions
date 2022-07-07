@@ -1,22 +1,15 @@
 class Solution:
     def isAnagram(self, s: str, t: str) -> bool:
-        
         if len(s) != len(t):
             return False
         
-        d = {}
+        d1, d2 = {}, {}
         
-        for char in s:
-            if char not in d:
-                d[char] = 1
-            else:
-                d[char] += 1
+        for letter in s:
+            d1[letter] = d1.get(letter, 0) + 1
         
-        for char in t:
-            if char not in d or d[char] < 1:
-                return False
-            else:
-                d[char] -= 1
+        for letter in t:
+            d2[letter] = d2.get(letter, 0) + 1
         
-        return True
-        
+        return (d1 == d2)
+            
